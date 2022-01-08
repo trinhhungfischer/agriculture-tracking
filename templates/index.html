@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>AgricultureTrack w/ Frontend</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script language="javascript" type="text/javascript" src="{{url_for('static', filename='web3.min.js')}}"></script>
+  <script>
+    var userAccount;
+    function startApp() {
+      var accountInterval = setInterval(function() {
+          // Check if account has changed
+          web3 = new Web3(web3.currentProvider);
+        
+          if (web3.eth.accounts[0] !== userAccount) {
+            userAccount = web3.eth.accounts[0];
+          }
+        }, 100);
+    }
+
+    window.addEventListener('load', function () {
+
+      // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+      if (typeof web3 !== 'undefined') {
+        // Use Mist/MetaMask's provider
+        web3js = new Web3(web3.currentProvider);
+        console.log("Metamask Connect");
+      } else {
+        // Handle the case where the user doesn't have Metamask installed
+        // Probably show them a message prompting them to install Metamask
+      }
+
+      // Now you can start your app & access web3 freely:
+      startApp()
+
+    })
+
+    function addProduct() {
+      // Clear result div to get new result
+      $(".show-add-pro-res").html("");
+
+      var productName = $('#product').val();
+
+      $.ajax({
+        url: "/addProduct",
+        type: "POST",
+        data: { productName: productName }
+      }).done(function (response) {
+        var html = "<br><p> <b> RESULT : <b><p>";
+        response = response.result;
+        $.each(response, function (key, val) {
+          console.log(val);
+          html += "<p>" + val + "<p>"
+        });
+        html += "<br>";
+        $(".show-add-pro-res").append(html);
+      });
+    }
+
+    function addActionToProduct() {
+      // Clear result div to get new result
+      $(".show-add-act-res").html("");
+
+      var action = $('#action').val();
+      var productId = $('#productidaction').val();
+      console.log(action)
+      console.log(productId)
+      $.ajax({
+        url: "/addActionToProduct",
+        type: "POST",
+        data: {
+          action: action,
+          productId: productId
+        }
+      }).done(function (response) {
+        var html = "<br><p> <b> RESULT : <b><p>";
+        response = response.result;
+        $.each(response, function (key, val) {
+          console.log(val);
+          html += "<p>" + val + "<p>"
+        });
+        html += "<br>";
+        $(".show-add-act-res").append(html);
+      });
+    }
+
+    function searchProduct() {
+      // Clear result div to get new result
+      $(".show-search-res").html("");
+
+      var productId = $('#productidsearch').val();
+      $.ajax({
+        url: "/searchProduct",
+        type: "POST",
+        data: { productId: productId }
+      }).done(function (response) {
+        var html = "<br><p> <b> RESULT : <b><p>";
+        response = response.result;
+        $.each(response, function (key, val) {
+          console.log(val);
+          html += "<p>" + val + "<p>"
+        });
+        html += "<br>";
+        $(".show-search-res").append(html);
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <h1>AgricultureTrack</h1>
+  <h2>Product Tracking For Farmer powered by Ethereum</h2>
+
+  <br>
+  <h1>Add Product By Name</h1>
+  <br><label for="product">Product Name: </label><input type="text" id="product" name="product"
+    placeholder="e.g., Apple"></input>
+  <br><br><button id="addproduct" onclick="addProduct()">Add Product</button>
+  <br><br>
+  <div class="show-add-pro-res">
+  </div>
+  <br>
+
+  <br>
+  <h1>Add Action To Product</h1>
+  <br><label for="action">Action Name: </label><input type="text" id="action" name="action"
+    placeholder="e.g., Seeding"></input>
+  <br><br>
+  <br><label for="productidaction">Product ID: </label><input type="text" id="productidaction" name="productid"
+    placeholder="e.g., 12"></input>
+  <br><br><button id="addactionid" onclick="addActionToProduct()">Add Action</button>
+  <br><br>
+  <div class="show-add-act-res"></div>
+  <br>
+
+  <br>
+  <h1>Search Product Action By ID</h1>
+  <br><label for="productidsearch">Product ID: </label><input type="text" id="productidsearch" name="productidsearch"
+    placeholder="e.g., 12"></input>
+  <br><br><button id="searchproduct" onclick="searchProduct()">Search Product</button>
+  <br><br>
+  <div class="show-search-res"></div>
+  <br>
+
+</body>
+
+</html>
