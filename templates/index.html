@@ -4,36 +4,39 @@
 <head>
   <title>AgricultureTrack w/ Frontend</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script language="javascript" type="text/javascript" src="{{url_for('static', filename='web3.min.js')}}"></script>
+  <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
+  
+  <script type="text/javascript">
+    const provider = await detectEthereumProvider()
+   
+    if (provider) {
+      // handle provider
+    } else {
+      // handle no provider
+    }
+  </script> 
+
   <script>
+
     var userAccount;
+
     function startApp() {
-      var accountInterval = setInterval(function() {
-          // Check if account has changed
-          web3 = new Web3(web3.currentProvider);
-        
-          if (web3.eth.accounts[0] !== userAccount) {
-            userAccount = web3.eth.accounts[0];
-          }
-        }, 100);
+      var accountInterval = setInterval(function () {
+        // Check if account has changed
+
+
+      }, 100);
     }
 
     window.addEventListener('load', function () {
-
-      // Checking if Web3 has been injected by the browser (Mist/MetaMask)
-      if (typeof web3 !== 'undefined') {
-        // Use Mist/MetaMask's provider
-        web3js = new Web3(web3.currentProvider);
-        console.log("Metamask Connect");
-      } else {
-        // Handle the case where the user doesn't have Metamask installed
-        // Probably show them a message prompting them to install Metamask
-      }
-
+      
       // Now you can start your app & access web3 freely:
       startApp()
 
     })
+    function updateProducts() {
+    }
+
 
     function addProduct() {
       // Clear result div to get new result
@@ -110,6 +113,9 @@
 <body>
   <h1>AgricultureTrack</h1>
   <h2>Product Tracking For Farmer powered by Ethereum</h2>
+  <br>
+  <h2>Your account has some product: </h2>
+  <div class="your-products"></div>
 
   <br>
   <h1>Add Product By Name</h1>

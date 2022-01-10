@@ -14,7 +14,7 @@ w3.eth.defaultAccount = w3.eth.accounts[0];
 # Path to the compiled contract JSON file
 compiledContractPath = 'build/contracts/ProductFactory.json'
 # Deployed contract address
-deployedContractAddress = '0x2279e2eF76678c2017533eb2EB8eD99A189e71aE'
+deployedContractAddress = '0x440AB2e6731593A50e8E1C9358DEbBfEefC5758b'
 
 productContract = w3.eth.contract('0x2279e2eF76678c2017533eb2EB8eD99A189e71aE')
 

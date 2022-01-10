@@ -62,4 +62,18 @@ contract ProductFactory {
         uint256[] memory times = p.times;
         return (times, actions);
     }
+
+    function getProductsByOwner(address _owner) external view returns(uint[] memory, string[] memory) {
+        uint[] memory result = new uint[](ownerProductCount[_owner]);
+        string[] memory names = new string[](ownerProductCount[_owner]);
+        uint counter = 0;
+        for (uint i = 0; i < products.length; i++) {
+            if (productToOwner[i] == _owner) {
+                result[counter] = i;
+                names[counter] = products[i].name; 
+                counter++;
+            }
+        }
+        return (result, names);
+    }
 }
